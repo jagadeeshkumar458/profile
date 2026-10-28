@@ -1,0 +1,127 @@
+:root {
+  --ink: #111;
+  --navy: #1f3864;
+  --muted: #6b6b6b;
+  --tech: #7a7a7a;
+  --link: #1155cc;
+  --desk: #e9ebee;
+  --paper: #fff;
+  --bar: #1f2937;
+  --bar-button: #374151;
+  --accent: #2563eb;
+  --edit-bg: #f2f6ff;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body:not(.is-site) { background: var(--desk); }
+.editor { min-height: 100vh; background: var(--desk); }
+
+/* ---------- Toolbar (screen only) ---------- */
+.toolbar {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  padding: 10px 16px;
+  background: var(--bar); color: #fff;
+  font: 13px/1.4 'Segoe UI', Arial, sans-serif;
+}
+.toolbar .hint { flex: 1 1 280px; opacity: .85; }
+.toolbar .hint.name { font-weight: 600; opacity: 1; }
+.toolbar code { background: rgba(255,255,255,.12); padding: 1px 5px; border-radius: 4px; }
+.toolbar button, .toolbar .button {
+  border: 0; border-radius: 6px; padding: 8px 14px; cursor: pointer;
+  font: inherit; font-weight: 600; background: var(--bar-button); color: #fff;
+  text-decoration: none;
+}
+.toolbar button:hover, .toolbar .button:hover { filter: brightness(1.2); }
+.toolbar button.primary { background: var(--accent); }
+.toolbar :focus-visible { outline: 2px solid #93c5fd; outline-offset: 2px; }
+
+/* ---------- Page: an A4 sheet, like the PDF ---------- */
+.page {
+  width: 210mm; max-width: calc(100% - 32px);
+  margin: 24px auto; padding: 0.45in 0.55in 0.6in;
+  background: var(--paper); box-shadow: 0 2px 12px rgba(0,0,0,.15);
+  color: var(--ink);
+  font-family: Lato, Calibri, 'Segoe UI', Arial, sans-serif;
+  font-size: 10.5pt;
+  line-height: 1.3;
+}
+.page a { color: inherit; text-decoration: none; }
+
+/* Header */
+.page .head { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; padding-left: 8px; }
+.page .head-text { min-width: 0; }
+.page .head h1 { font-size: 21pt; font-weight: 900; color: var(--navy); margin: 0 0 4px; letter-spacing: -.01em; }
+.page .subtitle { font-size: 12.5pt; color: var(--muted); margin: 0 0 8px; }
+.page .contact { margin: 0 0 3px; font-size: 10pt; }
+.page .contact .sep { margin: 0 8px; }
+.page .linkedin { color: var(--link); text-decoration: underline; }
+.page .photo {
+  flex: none; width: 1.3in; height: auto; aspect-ratio: 480 / 648; max-width: 100%;
+  object-fit: cover; margin-right: 0.05in;
+}
+
+/* Sections */
+.page .section { margin-top: 18px; }
+.page .head + .section { margin-top: 30px; }
+.page .section h2 {
+  font-size: 11pt; font-weight: 700; text-transform: uppercase; letter-spacing: .01em;
+  color: var(--navy); margin: 0 0 12px;
+  padding-bottom: 18px; border-bottom: 1.5px solid var(--navy);
+  break-after: avoid;
+}
+
+.page ul { margin: 0; padding-left: 0.55in; }
+.page ul.dots { list-style: '●     '; }
+.page ul.dots > li::marker { font-size: .85em; }
+.page li { margin: 0 0 4px; break-inside: avoid; }
+
+/* Title on the left, date on the right */
+.page .row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 16px; break-after: avoid; }
+.page .row h3 { font-size: 11pt; font-weight: 700; margin: 0; }
+.page .row .when { margin-left: auto; margin-right: 0.95in; font-style: italic; color: var(--muted); font-size: 10pt; }
+.page .jobs { display: grid; gap: 12px; }
+
+.page .project { margin-bottom: 12px; break-inside: avoid-page; }
+.page .project .tech { margin: 2px 0 3px; font-size: 9.5pt; color: var(--tech); }
+.page .project .tech b { color: var(--muted); }
+
+/* ---------- Edit mode ---------- */
+.editable { border-radius: 2px; cursor: text; }
+.editable:hover { background: var(--edit-bg); }
+.editable:focus { background: var(--edit-bg); outline: 1px dashed var(--accent); outline-offset: 1px; }
+.editable:empty::before { content: attr(data-placeholder); color: #9aa3b2; font-style: italic; }
+.edit-control {
+  font: 600 12px 'Segoe UI', Arial, sans-serif; cursor: pointer;
+  border: 1px solid #c7d4ee; background: #fff; color: var(--accent); border-radius: 4px;
+}
+.edit-control.remove { margin-left: 6px; padding: 0 6px; color: #b42318; border-color: #f1c4c0; opacity: .35; }
+li:hover > .edit-control.remove, .row:hover > .edit-control.remove { opacity: 1; }
+.edit-control.add { display: block; margin: 6px 0 8px 0.55in; padding: 3px 10px; }
+.section > .edit-control.add { margin-left: 0; }
+
+/* ---------- Phones ---------- */
+@media (max-width: 700px) {
+  .page { max-width: 100%; margin: 0; padding: 24px 16px 40px; box-shadow: none; }
+  .page .head { padding-left: 0; gap: 12px; }
+  .page .head h1 { font-size: 17pt; }
+  .page .subtitle { font-size: 11pt; }
+  .page .contact .sep { margin: 0 4px; }
+  .page .linkedin { overflow-wrap: anywhere; }
+  .page .photo { width: 80px; margin-right: 0; }
+  .page ul { padding-left: 22px; }
+  .page ul.dots { list-style: '●  '; }
+  .page .row .when { margin-left: 0; margin-right: 0; flex-basis: 100%; }
+  .edit-control.add { margin-left: 22px; }
+}
+
+/* ---------- Print / Download PDF ---------- */
+@page { size: A4; margin: 0.45in 0.55in; }
+@media print {
+  body { background: var(--paper); }
+  .toolbar, .edit-control { display: none !important; }
+  .page { width: auto; max-width: none; margin: 0; padding: 0; box-shadow: none; }
+  .editable, .editable:hover, .editable:focus { background: none; outline: none; }
+  .editable:empty::before { content: none; }
+}
